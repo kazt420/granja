@@ -1,0 +1,131 @@
+
+
+<div id="newAlimentacionModal" class="modal modal-fixed-footer">
+	<form class="row" ng-submit="newAlimentacion()">
+		<div class="modal-content" style="padding-bottom: 0px;">
+			<span class="modalHeader">Nuevo Registro de Alimentos</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>	
+			<div class="divider"></div><br>
+			<div class="contenedor">
+				<div class="fecha" >
+					<p id="diaSemana" class="diaSemana"></p>
+					<p id="dia" class="dia"></p>
+					<p>DE </p>
+					<p id="mes" class="mes"></p>
+					<p>DEL </p>
+					<p id="year" class="year"></p>
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em; margin-left: 0; margin-right: 0 ">
+				<select class="browser-default col s12 " style="margin: 0px;" required ng-model="alimentacion.producto" ng-options="c.descripcion for c in productos track by c.idproducto" >
+					<option value="" default disabled>-- ALIMENTOS --</option>
+				</select>
+			</div><br>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em;margin-left: 0; margin-right: 0 ">
+				<input type="text" placeholder="Observación" ng-model="alimentacion.observacion"></input>
+			</div>
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right">save</i>
+			</button>			
+		</div>
+	</form>
+</div>
+
+
+<div id="editAlimentacionModal" class="modal modal-fixed-footer">
+	<form class="row">
+		<div class="modal-content" style="padding-bottom: 0px;">
+			<span class="modalHeader">Datos del Registro de Alimentos</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>	
+			<div class="divider"></div><br>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em; margin-left: 0; margin-right: 0 ">
+				<select class="browser-default col s12" style="margin: 0px;" required ng-model="alimentacion.producto" disabled ng-options="c.descripcion for c in productos track by c.idproducto" >
+					<option value="" default disabled>-- ALIMENTOS --</option>
+				</select>
+			</div><br>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em;margin-left: 0; margin-right: 0 ">
+				<input type="text" placeholder="Observación" disabled ng-model="alimentacion.observacion"></input>
+			</div>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em;margin-left: 0; margin-right: 0 ">
+				<label>Registrado por: {{alimentacion.empleado}}</label>
+			</div>
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<!-- <button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right">save</i>
+			</button>	 -->
+			<a class="btn waves-effect waves-red red btn-flat modal-action"  ng-click="deleteAlimentacion()" >
+				Eliminar<i class="material-icons right">delete</i>
+			</a>	
+		</div>
+	</form>
+</div>
+
+
+
+
+
+<br>
+<div class="row animated zoomIn">
+	<div class="page-header waves-effect waves-light">
+		<span>ALIMENTACION</span>
+	</div>
+	<select class="browser-default col s24 m12 l12" style="margin-top: 1em";  required ng-model="filtro.IdRG" ng-options="o.lote for o in lotesproduccion" >
+				<option value="" default disabled>-- LOTES EN PRODUCCIÓN --</option>
+	</select>
+</div>
+
+<br>
+
+<div class="row list-content animated zoomIn">
+	<table class="list">
+		<tr class="header">
+			<td>FECHA</td>
+			<td>ALIMENTO</td>
+			<!-- <td>CANTIDAD</td>
+			<td>PRECIO U</td>
+			<td>TOTAL</td> -->
+			<td>OBSERVACIÓN</td>
+		</tr>
+		 <tr ng-repeat="o in alimentaciones" ng-if="o.idrg == filtro.IdRG.lote" data-href="#editAlimentacionModal" id="{{o.idra}}" onclick="openModal('editAlimentacionModal')" ng-click="selectEditAlimentacion($event)" class="body ">
+     	 	<td>{{o.fecha}}</td>
+     	 	<td>{{o.alimento}}</td>
+     	 	<!-- <td>{{o.cantidad}}</td>
+     	 	<td>{{o.preciou}}</td>
+     	 	<td>{{(o.preciou * o.cantidad)|number:2}}</td> -->
+     	 	<td>{{o.observacion}}</td>
+		</tr>
+		</tr>
+	</table>
+<span id="no-results" ng-show="($parent.productos | filter:searchProducto).length == 0" ng-cloak>No existen resultados</span>
+<center><dir-pagination-controls pagination-id="productos">
+</dir-pagination-controls></center>	
+</div>	
+
+<div class="fixed-action-btn  animated zoomIn">
+	<a class="btn-floating btn-large blue" ng-show="filtro.IdRG.lote>0" onclick="openModal('newAlimentacionModal')" ng-click="cleanAlimentacion()">
+		<i class="large material-icons">add</i>
+	</a>
+</div>
+
+<script>
+$(document).ready(function(){
+    $('ul.tabs').tabs({
+      swipeable : true,
+      responsiveThreshold : 1920
+    });
+  });
+	$('div>input.readonly').keyup(function(event) {
+        this.value="";
+    });
+</script>

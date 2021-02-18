@@ -1,0 +1,213 @@
+<div id="newVentaModal" class="modal ">
+	<form class="row" ng-submit="newVenta()">
+		<div class="modal-content" style="padding-bottom: 0px;">
+			<span class="modalHeader">Nueva Venta</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>
+			<div class="divider"></div><br>
+			<div class="contenedor">
+				<div class="fecha" >
+					<p id="diaSemana" class="diaSemana"></p>
+					<p id="dia" class="dia"></p>
+					<p>DE </p>
+					<p id="mes" class="mes"></p>
+					<p>DEL </p>
+					<p id="year" class="year"></p>
+				</div>
+			</div>
+			<div class="row" class="col s4" style="margin-bottom: 0px;margin-top: 1em;margin-left: 0; margin-right: 0 ">
+				<input type="datetime" disabled ng-model="venta.fecha"></input>
+			</div>
+			<div class="row" class="col s8" style="margin-bottom: 0px;margin-top: 1em;margin-left: 0; margin-right: 0 ">
+				<input type="text" class="col s3" min="0" placeholder="CI/RUC del Cliente" required ng-model="venta.ci" ng-blur="getCliente($event)" style="margin:0px"></input>
+				<input type="text" disabled style="margin-left: 5px" class="col s8" min="0" placeholder="Nombre del Cliente" required ng-model="venta.cliente" style="margin:0px"></input>
+			</div>
+			<div class="row" class="col s4" style="margin-bottom: 0px;margin-top: 1em;margin-left: 0; margin-right: 0 ">
+				<select class="browser-default col s4" ng-model="detalle.idrg"  ng-options="o.lote for o in lotesproduccion" >
+					<option value="" default disabled>-- LOTE EN PRODUCCIÓN --</option>
+				</select>
+				<input type="text" style="margin-left: 5px;" class="col s4" min="0" placeholder="Cantidad"  ng-model="detalle.cantidad" max = "{{detalle.idrg.cantidad}}" style="margin:0px" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
+				</input>
+				<input type="checkbox" class="filled-in" id="filled-in-box"  ng-model="detalle.tipo" checked="disabled" /><label for="filled-in-box">Faenado</label>
+				
+				<a class="btn-floating" onclick="" ng-click="addDetalle()">
+					<i class="large material-icons">add</i>
+				</a>
+			</div>
+			<table class="list">
+				<tr class="header">
+					<td>CANTIDAD</td>
+					<td>TIPO</td>
+					<td>LOTE</td>
+					<td>PRECIO U.</td>
+					<td>PRECIO TOTAL</td>
+				</tr>
+				<tr ng-repeat="o in listdet" >
+     	 			<td>{{o.cantidad}}</td>
+					<td>{{o.tipo}}</td>
+     	 			<td>{{o.lote}}</td>
+     	 			<td>{{o.preciou|number:2}}</td>
+     	 			<td>{{o.preciot|number:2}}</td>
+				</tr> 
+			</table>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em;margin-left: 0; margin-right: 0 ">
+				<div class="input-field col s4">
+			    	<input disabled step="0.01" type="text" style="margin-top:1em" required ng-model="venta.preciob">
+			      	<label class="active" >Precio Bruto</label>
+			    </div>
+			    <div class="input-field col s4">
+			    	<input disabled step="0.01" type="text" style="margin-top:1em" required ng-model="venta.iva">
+			      	<label class="active" >IVA</label>
+			    </div>
+			    <div class="input-field col s4">
+			    	<input disabled step="0.01" type="text" style="margin-top:1em" required ng-model="venta.preciot">
+			      	<label class="active" >Precio Total</label>
+			    </div>
+			</div>
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right">save</i>
+			</button>
+			<button class="btn waves-effect waves-blue btn-flat modal-action" ng-click="print()" >
+				Imprimir<i class="material-icons right">print</i>
+			</button>
+		</div>
+	</form>
+</div>
+
+<div id="editVentaModal" class="modal modal-fixed-footer">
+	<form class="row" ng-submit="deleteVenta()">
+		<div class="modal-content" style="padding-bottom: 0px;">
+			<span class="modalHeader">Editar Venta</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>
+			<div class="divider"></div><br>
+			<div class="row" class="col s4" style="margin-bottom: 0px;margin-top: 1em;margin-left: 0; margin-right: 0 ">
+				<input type="datetime" disabled ng-model="venta.fecha"></input>
+			</div>
+			<div class="row" class="col s8" style="margin-bottom: 0px;margin-top: 1em;margin-left: 0; margin-right: 0 ">
+				<input type="text" disabled class="col s3" min="0" placeholder="CI/RUC del Cliente" required ng-model="venta.ci" style="margin:0px"></input>
+				<input type="text" disabled style="margin-left: 5px" class="col s8"  placeholder="Nombre del Cliente" required ng-model="venta.cliente" style="margin:0px"></input>
+			</div>
+			<table class="list">
+				<tr class="header">
+					<td>CANTIDAD</td>
+					<td>TIPO</td>
+					<td>LOTE</td>
+					<td>PRECIO U.</td>
+					<td>PRECIO TOTAL</td>
+				</tr>
+				<tr ng-repeat="o in detalles" ng-if="venta.idventa == o.idfactura " data-href="#editVentaModal" id="{{o.iddetalle}}">
+     	 			<td>{{o.cantidad}}</td>
+     	 			<td>{{o.ntipo}}</td>
+     	 			<td>{{o.idrg}}</td>
+     	 			<td>{{o.precio}}</td>
+     	 			<td>{{o.precio * o.cantidad}}</td>
+				</tr>
+			</table>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em;margin-left: 0; margin-right: 0 ">
+				<div class="input-field col s4">
+			    	<input disabled step="0.01" type="text" style="margin-top:1em" required ng-model="venta.preciob">
+			      	<label class="active" >Precio Bruto</label>
+			    </div>
+			    <div class="input-field col s4">
+			    	<input disabled step="0.01" type="text" style="margin-top:1em" required ng-model="venta.iva">
+			      	<label class="active" >IVA</label>
+			    </div>
+			    <div class="input-field col s4">
+			    	<input disabled step="0.01" type="text" style="margin-top:1em" required ng-model="venta.preciot">
+			      	<label class="active" >Precio Total</label>
+			    </div>
+			</div>
+
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<!-- <button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right">save</i>
+			</button> -->	
+			<button class="btn waves-effect waves-blue btn-flat modal-action" ng-click="print()" >
+				Imprimir<i class="material-icons right">print</i>
+			</button>
+			<a class="btn waves-effect waves-red red btn-flat modal-action"  ng-click="deleteVenta()" >
+				Eliminar<i class="material-icons right">delete</i>
+			</a>	
+		</div>
+	</form>
+</div>
+<br>
+
+<div id="newClienteModal" class="modal modal-fixed-footer">
+	<form class="row" ng-submit="newCliente()">
+		<div class="modal-content" style="padding-bottom: 50px;">
+			<span class="modalHeader">Nuevo Cliente</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>
+			<div class="divider"></div><br>
+			<div class="row" style="margin: 0px"><input type="text" class="col s12 " placeholder="Cédula de Identidad" required ng-model="cliente.ci" disabled style="margin:0px" ng-blur="valida_cedula(cliente.ci)"></div><br>
+			<div class="row" style="margin: 0px"><input type="text" class="col s12 " placeholder="Apellidos" required ng-model="cliente.apellidos" style="margin:0px"></div><br>
+			<div class="row" style="margin: 0px"><input type="text" class="col s12 " placeholder="Nombres" required ng-model="cliente.nombres" style="margin:0px"></div><br>
+			<div class="row" style="margin: 0px"><input type="text" class="col s12 " placeholder="Ruc" required ng-model="cliente.ruc" style="margin:0px"></div><br>
+			<div class="row" style="margin: 0px"><input type="text" class="col s12 " placeholder="Teléfono" required ng-model="cliente.telefono" style="margin:0px"></div><br>
+			<div class="row" style="margin: 0px"><input type="text" class="col s12 " placeholder="Correo" required ng-model="cliente.correo" style="margin:0px"></div><br>
+			<div class="row" style="margin: 0px"><input type="text" class="col s12 " placeholder="Dirección" required ng-model="cliente.direccion" style="margin:0px"></div><br>
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right">save</i>
+			</button>
+		</div>
+	</form>
+</div>
+
+<div class="row animated zoomIn">
+	<div class="page-header waves-effect waves-light">
+		<span>Ventas por lote</span>
+	</div>
+	<select class="browser-default col s24 m12 l12" style="margin-top: 1em;" required ng-model="filtro.IdRG" ng-options="o.lote for o in lotesproduccion" >
+				<option value="" default disabled>-- LOTE EN PRODUCCIÓN --</option>
+	</select>
+</div>
+
+
+<br>
+
+<div class="row list-content animated zoomIn">
+	<table class="list">
+		<tr class="header">
+			<td>FECHA</td>
+			<td># DE FACTURA</td>
+			<td>CLIENTE</td>
+			<td>EMPLEADO</td>
+			<td>Valor</td>
+		</tr>
+		 <tr ng-repeat="o in listaVentas"  data-href="#editVentaModal" id="{{o.idfactura}}" onclick="openModal('editVentaModal')" ng-if="filtro.IdRG.lote == o.idrg" ng-click="selectEditVenta($event)">
+     	 	<td>{{o.fecha|date:"yyyy-MM-dd"}}</td>
+     	 	<td>{{o.idfactura}}</td>
+     	 	<td>{{o.cliente}}</td>
+     	 	<td>{{o.empleado}}</td>
+     	 	<td>{{o.valor}}</td>
+		</tr>
+		</tr>
+	</table>
+	<span id="no-results" ng-show="($parent.categorias | filter:searchCategoria).length == 0" ng-cloak>No existen resultados</span>
+	<center><dir-pagination-controls class="isblack" pagination-id="categorias">
+	</dir-pagination-controls></center>	
+</div>	
+
+
+<div class="fixed-action-btn  animated zoomIn">
+	<a class="btn-floating btn-large blue" onclick="openModal('newVentaModal')" ng-click="cleanVentas()">
+		<i class="large material-icons">add</i>
+	</a>
+</div>
+

@@ -1,0 +1,128 @@
+<br>
+
+
+
+<div id="newVeterinarioModal" class="modal modal-fixed-footer">
+	<form class="row" ng-submit="nuevoVeterinario()">
+		<div class="modal-content" style="padding-bottom: 50px;">
+			<span class="modalHeader">Nuevo Veterinario</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>
+			<div class="divider"></div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="Cédula de Identidad" required ng-model="veterinario.ci" style="margin:0px" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="10" ng-blur="valida_cedula(veterinario.ci)">
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="Apellidos" required ng-model="veterinario.apellidos" style="margin:0px">
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="Nombres" required ng-model="veterinario.nombres" style="margin:0px">
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="Veterinaria" required ng-model="veterinario.empresa" style="margin:0px">
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="Teléfono" required ng-model="veterinario.telefono" style="margin:0px" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="10">
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="CORREO" required ng-model="veterinario.correo" style="margin:0px;text-transform: none !important;">
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="Dirección" required ng-model="veterinario.direccion" style="margin:0px">
+			</div><br>
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right">save</i>
+			</button>
+		</div>
+	</form>
+</div>
+
+
+<div id="editVeterinarioModal" class="modal modal-fixed-footer">
+	<form class="row" ng-submit="editVeterinario()">
+		<div class="modal-content" style="padding-bottom: 50px;">
+			<span class="modalHeader">Editar Veterinario</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>
+			<div class="divider"></div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="Cédula de Identidad" required ng-model="veterinario.ci" style="margin:0px" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="10">
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="Apellidos" required ng-model="veterinario.apellidos" style="margin:0px">
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="Nombres" required ng-model="veterinario.nombres" style="margin:0px">
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="Veterinaria" required ng-model="veterinario.empresa" style="margin:0px">
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="Teléfono" required ng-model="veterinario.telefono" style="margin:0px" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="10">
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="Correo" required ng-model="veterinario.correo" style="margin:0px;text-transform: none !important;">
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="Dirección" required ng-model="veterinario.direccion" style="margin:0px">
+			</div><br>
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right">save</i>
+			</button>
+			<a class="btn waves-effect waves-red red btn-flat modal-action"  ng-click="deleteVeterinario()" >
+				Eliminar<i class="material-icons right">delete</i>
+			</a>
+		</div>
+	</form>
+</div>
+
+
+
+<div class="row animated zoomIn">
+	<div class="page-header waves-effect waves-light">
+		<span>Veterinarios</span>
+		<a href="" id='backIcon' class="right white-text"><i class="material-icons small" ng-click="searchSucursal= ''" onclick="searchDesactiveContent()">arrow_back</i></a>
+		<a href="" id='searchIcon' class="right white-text" onclick="searchActiveContent()"><i class="material-icons small">search</i></a>
+		<a href="" id='closeIcon' class="right white-text" ng-hide="searchSucursal == ''"><i class="material-icons small" ng-click="searchSucursal= ''" onclick="$('.page-header>input').focus()">close</i></a>
+		<input type="text" placeholder="BUSCAR" ng-model="searchSucursal" class="center " data-ripple-color="#00bcd4">
+	</div>
+</div>
+
+<br>
+
+<div class="row list-content animated zoomIn">
+	<table class="list">
+		<tr class="header">
+			<td>#</td>
+			<td>C.I.</td>
+			<td>Apellidos</td>
+			<td>Nombres</td>
+			<td>Telefono</td>
+			<td>Correo</td>
+			<td>Empresa</td>
+		</tr>
+     	 <tr ng-repeat="s in veterinarios" data-href="#editVeterinarioModal" id={{s.IdVeterinario}} onclick="openModal('editVeterinarioModal')" ng-click="selectEditVeterinario($event)" class="body ">
+     	 	<td>{{$index+1}}</td><td>{{s.Ci}}</td><td>{{s.Apellidos}}</td><td>{{s.Nombres}}</td><td>{{s.Telefono}}</td><td>{{s.Correo}}</td><td>{{s.Empresa}}</td>
+
+     	 </tr>
+</table>
+
+
+
+</div>	
+
+<div class="fixed-action-btn  animated zoomIn">
+	<a class="btn-floating btn-large blue" onclick="openModal('newVeterinarioModal')" ng-click="cleanVeterinario()">
+		<i class="large material-icons">add</i>
+	</a>
+</div>

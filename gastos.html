@@ -1,0 +1,132 @@
+<div id="newGastoModal" class="modal ">
+	<form class="row" ng-submit="newGasto()">
+		<div class="modal-content" style="padding-bottom: 0px;">
+			<span class="modalHeader">Registro Gasto</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>
+			<div class="divider"></div><br>
+			<div class="contenedor">
+				<div class="fecha" >
+					<p id="diaSemana" class="diaSemana"></p>
+					<p id="dia" class="dia"></p>
+					<p>DE </p>
+					<p id="mes" class="mes"></p>
+					<p>DEL </p>
+					<p id="year" class="year"></p>
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em; margin-left: 0; margin-right: 0 ">
+				<select class="browser-default col s4 " style="margin: 0px;margin-right: 50px" required ng-model="gasto.Nombre" ng-options="c.Nombre for c in gastos track by c.IdGasto" >
+					<option value="" default disabled>-- GASTOS --</option>
+				</select>
+				<input type="number" class="col s2 " min="0" placeholder="Cantidad" required ng-model="gasto.Cantidad" style="margin-left: -20px; margin-right: 20px" ng-blur="gasto.precio_total = gasto.Cantidad * gasto.Precio"></input>
+				<input type="text" step="0.01" class="col s2 "  placeholder="Precio" required ng-model="gasto.Precio" style="margin:0px" ></input>
+				<!-- onkeypress="return (event.charCode >= 48 && event.charCode <= 57 && event.charCode = 110 && event.charCode = 188)" -->
+				<input type="text" step="0.01" class="col s2 "  placeholder="Total" required ng-model="gasto.precio_total" style="margin-left: 10px" ></input>
+			</div>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em; margin-left: 0; margin-right: 0 " ng-show="gasto.Nombre.Nombre=='ALIMENTACION'">
+				<select class="browser-default col s5 " style="margin: 0px;margin-right: 50px" required ng-model="gasto.alimento" ng-options="c.descripcion + ' $' + c.preciounitario for c in productos track by c.idproducto" ng-change="gasto.Precio = gasto.alimento.preciounitario">
+					<option value="" default disabled>-- ALIMENTOS --</option>
+				</select>
+			</div>
+			<br>
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right">save</i>
+			</button>
+		</div>
+	</form>
+</div>
+
+<div id="editGastoModal" class="modal modal-fixed-footer">
+	<form class="row" ng-submit="deleteGasto()">
+		<div class="modal-content" style="padding-bottom: 0px;">
+			<span class="modalHeader">Datos del Gasto</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>
+			<div class="divider"></div><br>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em;margin-left: 0; margin-right: 0 ">
+				<input type="datetime"  ng-model="gasto.Fecha" disabled>
+			</div>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em; margin-left: 0; margin-right: 0 ">
+				<select class="browser-default col s5 " style="margin: 0px;margin-right: 115px" required ng-model="gasto.Nombre" ng-options="c.Nombre for c in gastos track by c.IdGasto" disabled>
+					<option value="" default disabled>-- GASTOS --</option>
+				</select><br><br>
+			</div>
+			<div><br>
+				<label style="margin-right: 55px;">PRECIO U.</label><label style="margin-right: 55px;">CANTIDAD</label><label>TOTAL</label><br>
+				<input type="text"  class="col s2" placeholder="Precio" required ng-model="gasto.Precio" style="margin-right: 15px;margin-bottom: -10px" disabled>
+				</input>
+				
+				<input type="text"  class="col s2" placeholder="Cantidad" required ng-model="gasto.cantidad" style="margin-right: 15px" disabled>
+				</input>
+				
+				<input type="text"  class="col s2" placeholder="Total" required ng-model="gasto.total" style="margin:0px" disabled>
+				</input>
+			</div>
+			<div class="row" class="col s12" style="margin:0px">
+				<input type="text" class="col s12"  placeholder="Producto" required ng-model="gasto.producto.descripcion" style="margin:0px" disabled>
+				</input>
+			</div><br>
+			<div class="row" class="col s12" style="margin:0px">
+				<input type="text" placeholder="Observación" ng-model="alimentacion.observacion"></input>
+			</div>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em;margin-left: 0; margin-right: 0 ">
+				<label>Registrado por: {{gasto.empleado}}</label>
+			</div>
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<!-- <button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right">save</i>
+			</button> -->	
+			<a class="btn waves-effect waves-red red btn-flat modal-action"  ng-click="deleteGasto()" >
+				Eliminar<i class="material-icons right">delete</i>
+			</a>	
+		</div>
+	</form>
+</div>
+<br>
+
+<div class="row animated zoomIn">
+	<div class="page-header waves-effect waves-light">
+		<span>Gastos por Lote</span>
+	</div>
+	<select class="browser-default col s24 m12 l12" style = "margin-top:1em" required ng-model="filtro.IdRG" ng-options = "o.lote for o in lotesproduccion" >
+				<option value="" default disabled>-- LOTE EN PRODUCCIÓN --</option>
+	</select>
+</div>
+
+
+<br>
+
+<div class="row list-content animated zoomIn">
+	<table class="list">
+		<tr class="header">
+			<td>GASTO</td>
+			<td>FECHA</td>
+			<td>PRECIO</td>
+		</tr>
+		 <tr ng-repeat="o in listaGastos" ng-if="o.IdRG == filtro.IdRG.lote" data-href="#editGastoModal" id="{{o.IdRegGast}}" onclick="openModal('editGastoModal')" ng-click="selectEditGasto($event)">
+     	 	<td>{{o.Nombre}}</td><td>{{o.Fecha|date:"yyyy-MM-dd"}}</td><td>{{o.Precio}}</td>
+		</tr>
+		</tr>
+	</table>
+	<span id="no-results" ng-show="($parent.categorias | filter:searchCategoria).length == 0" ng-cloak>No existen resultados</span>
+	<center><dir-pagination-controls class="isblack" pagination-id="categorias">
+	</dir-pagination-controls></center>	
+</div>	
+
+
+<div class="fixed-action-btn  animated zoomIn" ng-hide="filtro.IdRG.lote == '0'">
+	<a class="btn-floating btn-large blue" onclick="openModal('newGastoModal')" ng-click="cleanGastos()">
+		<i class="large material-icons">add</i>
+	</a>
+</div>
+

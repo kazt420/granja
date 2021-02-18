@@ -1,0 +1,114 @@
+<div id="newMortalidadModal" class="modal ">
+	<form class="row" ng-submit="newMortalidad()">
+		<div class="modal-content" style="padding-bottom: 0px;">
+			<span class="modalHeader">Registro Mortalidad</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>
+			<div class="divider"></div><br>
+			<div class="contenedor">
+				<div class="fecha" >
+					<p id="diaSemana" class="diaSemana"></p>
+					<p id="dia" class="dia"></p>
+					<p>DE </p>
+					<p id="mes" class="mes"></p>
+					<p>DEL </p>
+					<p id="year" class="year"></p>
+				</div>
+			</div>
+			<div class="row" style="margin: 0px">
+				<input type="number" class="col s5" min="0" placeholder="Cantidad" required ng-model="mortalidad.cantidad" style="margin: 0px;margin-right: 110px"></input>
+				<select class="browser-default col s5" ng-model="mortalidad.tipo" style="margin: 0px;" >
+					<option value="" default disabled selected>-- TIPO --</option>
+					<option value="1">ALTAS</option> 
+					<option value="0">BAJAS</option>
+				</select> 
+			</div>
+			<br>
+			<div class="row" style="margin: 0px"><input type="text" class="col s12"  placeholder="Comentario"  ng-model="mortalidad.comentario"></input></div>	
+			
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right">save</i>
+			</button>
+		</div>
+	</form>
+</div>
+
+<div id="editMortalidadModal" class="modal modal-fixed-footer">
+	<form class="row" ng-submit="deleteMortalidad()">
+		<div class="modal-content" style="padding-bottom: 0px;">
+			<span class="modalHeader">Datos del Registro</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>
+			<div class="divider"></div><br>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em;margin-left: 0; margin-right: 0 ">
+				<input type="datetime" disabled ng-model="mortalidad.fecha"></input>
+			</div>
+			<div class="row" style="margin: 0px">
+				<input type="number" class="col s5" min="0" placeholder="Cantidad" required ng-model="mortalidad.cantidad" disabled style="margin:0px;margin-right: 115px"></input>
+				<select class="browser-default col s5" ng-model="mortalidad.tipo" disabled ng-options="t.nombre for t in tipo track by t.id"style="margin: 0px;" >
+					<option value="" default disabled selected>-- TIPO --</option>
+				</select> 
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12"  placeholder="Comentario" disabled ng-model="mortalidad.comentario" style="margin:0px"></input>
+			</div>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em;margin-left: 0; margin-right: 0 ">
+				<label>Registrado por: {{mortalidad.empleado}}</label>
+			</div>
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<!-- <button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right">save</i>
+			</button> -->	
+			<a class="btn waves-effect waves-red red btn-flat modal-action"  ng-click="deleteMortalidad()" >
+				Eliminar<i class="material-icons right">delete</i>
+			</a>	
+		</div>
+	</form>
+</div>
+<br>
+
+<div class="row animated zoomIn">
+	<div class="page-header waves-effect waves-light">
+		<span>Mortalidad</span>
+	</div>
+	<select class="browser-default col s24 m12 l12" style="margin-top: 1em";" required ng-model="filtro.IdRG" ng-options="o.lote for o in lotesproduccion" >
+				<option value="" default disabled>-- LOTE EN PRODUCCIÓN --</option>
+	</select>
+</div>
+
+
+<br>
+
+<div class="row list-content animated zoomIn">
+	<table class="list">
+		<tr class="header">
+			<td>FECHA</td>
+			<td>CANTIDAD</td>
+			<td>TIPO</td>
+		</tr>
+		 <tr ng-repeat="o in listaMortalidad" ng-if="o.IdRG == filtro.IdRG.lote" data-href="#editObrasModal" id="{{o.IdMort}}" onclick="openModal('editMortalidadModal')" ng-click="selectEditMortalidad($event)">
+    	 	<td>{{o.Fecha|date:"yyyy-MM-dd"}}</td><td>{{o.Cantidad}}</td><td>{{o.Tipo}}</td>
+		</tr>
+		</tr>
+	</table>
+	<span id="no-results" ng-show="($parent.categorias | filter:searchCategoria).length == 0" ng-cloak>No existen resultados</span>
+	<center><dir-pagination-controls class="isblack" pagination-id="categorias">
+	</dir-pagination-controls></center>	
+</div>	
+
+
+<div class="fixed-action-btn  animated zoomIn" ng-hide="filtro.IdRG.lote == '0'">
+	<a class="btn-floating btn-large blue" onclick="openModal('newMortalidadModal')" ng-click="cleanMortalidad()">
+		<i class="large material-icons">add</i>
+	</a>
+</div>
+

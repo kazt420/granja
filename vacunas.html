@@ -1,0 +1,92 @@
+<br>
+
+
+
+<div id="newVacunaModal" class="modal modal-fixed-footer">
+	<form class="row" ng-submit="newVacuna()">
+		<div class="modal-content" style="padding-bottom: 50px;">
+			<span class="modalHeader">Nueva Vacuna</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>
+			<div class="divider"></div><br>
+			<div>
+				<span>DATOS DE LA NUEVA VACUNA</span>
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12 " placeholder="Nombre" required ng-model="vacuna.nombre" style="margin:0px">
+			</div>
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right">save</i>
+			</button>
+		</div>
+	</form>
+</div>
+
+
+<div id="editVacunaModal" class="modal modal-fixed-footer">
+	<form class="row" ng-submit="editVacuna()">
+		<div class="modal-content" style="padding-bottom: 50px;">
+			<span class="modalHeader">Editar Vacuna</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>
+			<div class="divider"></div><br>
+			<div>
+				<span>DATOS DE LA NUEVA VACUNA</span>
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<input type="text" class="col s12" placeholder="Nombre" required ng-model="vacuna.nombre" style="margin:0px">
+			</div>
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right">delete</i>
+			</button>
+			<a class="btn waves-effect waves-red red btn-flat modal-action"  ng-click="deleteVacuna()" >
+				Eliminar<i class="material-icons right">delete</i>
+			</a> 
+		</div>
+	</form>
+</div>
+
+
+
+<div class="row animated zoomIn">
+	<div class="page-header waves-effect waves-light">
+		<span>Vacunas</span>
+		<a href="" id='backIcon' class="right white-text"><i class="material-icons small" ng-click="searchSucursal= ''" onclick="searchDesactiveContent()">arrow_back</i></a>
+		<a href="" id='searchIcon' class="right white-text" onclick="searchActiveContent()"><i class="material-icons small">search</i></a>
+		<a href="" id='closeIcon' class="right white-text" ng-hide="searchSucursal == ''"><i class="material-icons small" ng-click="searchSucursal= ''" onclick="$('.page-header>input').focus()">close</i></a>
+		<input type="text" placeholder="BUSCAR" ng-model="searchSucursal" class="center " data-ripple-color="#00bcd4">
+	</div>
+</div>
+
+<br>
+
+<div class="row list-content animated zoomIn">
+	<table class="list">
+		<tr class="header">
+			<td>#</td>
+			<td>Nombre</td>
+		</tr>			
+     	 <tr ng-repeat="s in vacunas" data-href="#editVacunaModal" id={{s.IdVacuna}} onclick="openModal('editVacunaModal')" ng-click="selectEditVacuna($event)" class="body ">
+     	 	<td>{{$index+1}}</td><td>{{s.Nombre}}</td>
+     	 </tr>
+</table>
+
+
+
+</div>	
+
+<div class="fixed-action-btn  animated zoomIn">
+	<a class="btn-floating btn-large blue" onclick="openModal('newVacunaModal')" ng-click="cleanVacuna()">
+		<i class="large material-icons">add</i>
+	</a>
+</div>

@@ -1,0 +1,150 @@
+
+
+<div id="newRegGalModal" class="modal modal-fixed-footer">
+	<form class="row" ng-submit="newRegistroGalpon()">
+		<div class="modal-content" style="padding-bottom: 0px;">
+			<span class="modalHeader">Nuevo Registro de Galpón</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>	
+			<div class="divider"></div><br>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em; margin-left: 0; margin-right: 0 "><select class="browser-default col s12 m6 l6" style="margin: 0px;" required ng-model="registrogalpon.galpon" ng-options="c.id+ '-' + c.capacidad for c in galpones track by c.id" >
+				<option value="" default disabled>-- GALPONES --</option>
+			</select></div><br>
+			<div class="row" style="margin-bottom: 0px;margin-top: 1em; ""><input type="date"  ng-model="registrogalpon.fecha"></input></div>
+			
+
+			
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right">save</i>
+			</button>			
+		</div>
+	</form>
+</div>
+
+
+<div id="editRegGapModal" class="modal modal-fixed-footer">
+		<div class="modal-content" style="padding-bottom: 0px;">
+			<span class="modalHeader">GALPÓN EN PRODUCCIÓN</span>
+			<a href="" class="modal-action modal-close">
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>
+			<ul id="tabs-swipe-demo" class="tabs">
+    			<li class="tab col s3"><a href="#swipe-1">GASTOS</a></li>
+    			<li class="tab col s3"><a class="active" href="#swipe-2">MORTALIDAD</a></li>
+    			<li class="tab col s3"><a href="#swipe-3">VENTAS</a></li>
+  			</ul>		
+  			<div id="swipe-1" class="col s12 ">
+				<table class="list">
+					<tr class="header">
+						<td>GASTO</td>
+						<td>FECHA</td>
+						<td>PRECIO</td>
+					</tr>
+					 <tr ng-repeat="o in selectgastos" data-href="#editObrasModal" id="{{o.IdRegGast}}" onclick="" ng-click="">
+				     	 	<td>{{o.Nombre}}</td><td>{{o.Fecha|date:"yyyy-MM-dd"}}</td><td>{{o.Precio}}</td>
+					</tr>
+					</tr>
+					</table>
+					<canvas id="gastos" width="400" height="400"></canvas>
+	  		</div>
+	  		<div id="swipe-2" class="col s12 ">
+	  			<table class="list">
+					<tr class="header">
+						<td>FECHA</td>
+						<td>CANTIDAD</td>
+						<td>TIPO</td>
+					</tr>
+					 <tr ng-repeat="o in selectmortalidad" data-href="#editObrasModal" id="{{o.id}}" onclick="" ng-click="">
+			     	 	<td>{{o.Fecha|date:"yyyy-MM-dd"}}</td><td>{{o.Cantidad}}</td><td>{{o.Tipo}}</td>
+					</tr>
+					</tr>
+				</table>
+				<canvas id="mortalidad" width="400" height="400"></canvas>
+	  		</div>
+
+	  		<div id="swipe-3" class="col s12 ">
+
+				<table class="list">
+						<tr class="header">
+							<td>FECHA</td>
+							<td>CANTIDAD</td>
+							<td>PRECIO</td>
+						</tr>
+						 <tr ng-repeat="o in selectventas" data-href="#editObrasModal" id="{{o.IdRG}}" onclick="" ng-click="selectEditRegistroGalpon($event)">
+				     	 	<td>{{o.Fecha|date:"yyyy-MM-dd"}}</td><td>{{o.Cantidad}}</td><td>{{o.Precio}}</td>
+						</tr>
+						</tr>
+				</table>
+				<canvas id="ventas" width="400" height="400"></canvas>
+	  		</div>
+
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			
+			<!-- <a class="btn waves-effect waves-red red btn-flat modal-action"  ng-click="deleteObra()" >
+				Eliminar<i class="material-icons right">delete</i>
+			</a> -->	
+		</div>
+</div>
+
+
+
+
+
+
+
+<div class="row animated zoomIn">
+	<div class="page-header waves-effect waves-light">
+		<span>Registro de Galpones</span>
+		<a href="" id='backIcon' class="right white-text"><i class="material-icons small" ng-click="searchProducto= ''" onclick="searchDesactiveContent()">arrow_back</i></a>
+		<a href="" id='searchIcon' class="right white-text" onclick="searchActiveContent()"><i class="material-icons small">search</i></a>
+		<a href="" id='closeIcon' class="right white-text" ng-hide="searchProducto == ''"><i class="material-icons small" ng-click="searchProducto= ''" onclick="$('.page-header>input').focus()">close</i></a>
+		<input type="text" placeholder="BUSCAR" ng-model="searchProducto" class="center " data-ripple-color="#00bcd4">
+	</div>
+</div>
+
+<br>
+
+<div class="row list-content animated zoomIn">
+	<table class="list">
+		<tr class="header">
+			<td>LOTE</td>
+			<td># GALPON</td>
+			<td>FECHA INICIO</td>
+			<td>FECHA FINAL</td>
+			<td>ALTAS</td>
+			<td>BAJAS</td>
+			<td>CANTIDAD</td>
+			<td>VALOR</td>
+			<td>ESTADO</td>
+
+		</tr>
+		 <tr ng-repeat="o in registrogalpones" data-href="#editRegGapModal" id="{{o.IdRG}}" onclick="openModal('editRegGapModal')" ng-click="selectEditRegistroGalpon($event)" class="body ">
+     	 	<td>{{o.IdRG}}</td><td>{{o.IdGalpon}}</td><td>{{o.FechaInicio}}</td><td>{{o.FechaFin}}</td><td>{{o.altas}}</td><td>{{o.bajas}}</td><td>{{o.Cantidad}}</td><td>{{o.Valor}}</td><td>{{o.Estado}}</td>
+		</tr>
+		</tr>
+	</table>
+<span id="no-results" ng-show="($parent.productos | filter:searchProducto).length == 0" ng-cloak>No existen resultados</span>
+<center><dir-pagination-controls pagination-id="productos">
+</dir-pagination-controls></center>	
+</div>	
+
+
+
+<script>
+$(document).ready(function(){
+    $('ul.tabs').tabs({
+      swipeable : true,
+      responsiveThreshold : 1920
+    });
+  });
+	$('div>input.readonly').keyup(function(event) {
+        this.value="";
+    });</script>

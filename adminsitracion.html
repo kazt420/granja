@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="utf-8">
+	<meta name="msapplication-tap-highlight" content="no">
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+	<link rel="icon" href="img/granja1.png" type="image/png">
+	<link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="css/dialogBox.css">
+	<link rel="stylesheet" type="text/css" href="css/animate.css">
+	<title>Administrador de Granja</title>
+</head>
+<body ng-controller='mainCtrl as main'>
+	<!-- absolute obscure -->
+	<div class="fullscreen" ng-show="preloaderShow" ng-cloak></div>
+
+
+
+	<!-- MENU PRINCIPAL-->
+	<div class="navbar-fixed" ng-cloak>
+		<nav class="grey darken-4">
+			<div class="nav-wrapper" >
+				<a href="#!" class="brand-logo"><span> /Administración de Granja</span></a>
+				<a href="#" data-activates="navMenu" class="button-collapse"><i class="material-icons">menu</i></a>
+			</div>
+			<loading/>
+		</nav>
+	</div>
+
+
+
+	<ul class="side-nav grey" id="navMenu">
+		
+		<br><span>Personal</span><div class="divider"></div>
+		<li ng-hide="usuario.tipo == '0'" ><a href="#nomina" class=" waves-effect waves-light">Nómina</a></li>
+		<br><span>Producción</span><div class="divider"></div>
+		<li ng-class="checkActive('/registrogalpones')" ><a href="#registrogalpones" class=" waves-effect waves-light">Lotes</a></li>
+		<li ng-class="checkActive('/mortalidad')" ><a href="#mortalidad" class=" waves-effect waves-light">Mortalidad</a></li>
+		<li ng-class="checkActive('/gastos')" ><a href="#gastos" class=" waves-effect waves-light">Gastos Por lote</a></li>
+		<li ng-class="checkActive('/ventas')" ><a href="#ventas" class=" waves-effect waves-light">Ventas Por lote</a></li>
+		<br><span>Varios</span><div class="divider"></div>
+		<li ng-class="checkActive('/gasto')"><a href="#gasto" class=" waves-effect waves-light">Gastos</a></li>
+		<li ng-class="checkActive('/galpones')"><a href="#galpones" class=" waves-effect waves-light">Galpones</a></li>	
+		<li ng-class="checkActive('/registrototal')"><a href="#registrototal" class=" waves-effect waves-light">Registro Total</a></li>	
+		<!-- <li ng-class="checkActive('/bodega')"><a href="#bodega" class=" waves-effect waves-light">Bodega</a></li>
+		<li ng-class="checkActive('/mantenimiento')"><a href="#mantenimiento" class=" waves-effect waves-light">Mantenimiento</a></li>	
+		<li ng-class="checkActive('/reportes')"><a href="#reportes" class=" waves-effect waves-light">Reportes</a></li> -->
+	</ul>
+
+<div class="container">
+ <div ng-view></div>
+</div>
+
+
+
+
+		
+        
+
+
+
+
+
+	<script src="js/chart.min.js"></script>
+	<script src="js/jquery.js"></script>
+	<script src="js/materialize.min.js"></script>
+	<script src="js/angular.js"></script>
+	<script src="js/angular-route.js"></script>
+	<script src="js/index.js"></script>
+	<script src="js/ngstorage.js"></script>
+	<script src="js/dirPagination.js"></script>
+	<script src="js/ngGeolocation.js"></script>
+	<script src="js/angular-sham-spinner.js"></script>
+	<script src="main.js"></script>
+</body>
+</html>
+
+
+
+

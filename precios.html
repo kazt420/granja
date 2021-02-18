@@ -1,0 +1,60 @@
+<br>
+
+
+
+<div id="editPreciosModal" class="modal modal-fixed-footer">
+	<form class="row" ng-submit="editPrecio()">
+		<div class="modal-content" style="padding-bottom: 50px;">
+			<span class="modalHeader">Editar Precio</span>
+			<a href="" class="modal-action modal-close">	
+				<span class="new badge transparent red-text" data-badge-caption="">
+					<i class="material-icons btnTitle">cancel</i>
+				</span>
+			</a>
+			<div class="divider"></div><br>
+			<div>
+				<span>INFORMACIÓN</span>
+			</div><br>
+			<div class="row" style="margin: 0px">
+				<label>{{precio.nombre}}</label>
+			</div><br>
+			<div class="divider"></div>
+			<input type="number" step="0.01" min="0" class="col s12 " placeholder="Valor" required ng-model="precio.valor" style="margin:0px">
+		</div>
+		<div class="modal-footer" style="padding-top: 0px;">
+			<button class="btn waves-effect waves-red btn-flat modal-action" type="submit" >
+				Guardar<i class="material-icons right"></i>
+			</button>
+		</div>
+	</form>
+</div>
+
+
+
+<div class="row animated zoomIn">
+	<div class="page-header waves-effect waves-light">
+		<span>PRECIOS</span>
+		<a href="" id='backIcon' class="right white-text"><i class="material-icons small" ng-click="searchSucursal= ''" onclick="searchDesactiveContent()">arrow_back</i></a>
+		<a href="" id='searchIcon' class="right white-text" onclick="searchActiveContent()"><i class="material-icons small">search</i></a>
+		<a href="" id='closeIcon' class="right white-text" ng-hide="searchSucursal == ''"><i class="material-icons small" ng-click="searchSucursal= ''" onclick="$('.page-header>input').focus()">close</i></a>
+		<input type="text" placeholder="BUSCAR" ng-model="searchSucursal" class="center " data-ripple-color="#00bcd4">
+	</div>
+</div>
+
+<br>
+
+<div class="row list-content animated zoomIn">
+	<table class="list">
+		<tr class="header">
+			<td>Nombre</td>
+			<td>Valor</td>
+		</tr>			
+     	 <tr ng-repeat="s in precios" data-href="#editPreciosModal" id={{s.nombre}} onclick="openModal('editPreciosModal')" ng-click="selectEditPrecio($event)" class="body ">
+     	 	<td>{{s.nombre}}</td>
+     	 	<td>{{s.valor}}</td>
+     	 </tr>
+</table>
+
+
+
+</div>	
